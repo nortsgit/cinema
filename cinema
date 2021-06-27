@@ -1,0 +1,618 @@
+import sys
+
+print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=")
+print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+print("~ Welcome to Pizzaz cinema ~")
+print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=")
+
+# Movie title, date created, duration, time commencing and room
+movies = [("The Shining", "1998", "2h 26m", "10:00", "Room 1"),
+          ("Your Name", "2016", "1h 52m", "13:00", "Room 1"),
+          ("Fate/Stay Night: Heaven's Feel - III", "2020", "2h 0m", "15:00", "Room 1"),
+          ("The Night Is Short, Walk on Girl", "2017", "1h 32m", "17.30", "Room 1"),
+          ("The Truman Show", "1998", "1h 47m", "19:30", "Room 1"),
+          ("Genocidal Organ", "2017", "1hr 55m", "21:45", "Room 1"),
+          ("Jacob's Ladder", "1990", "1h 56m", "10:00", "Room 2"),
+          ("Parasite", "2019", "2h 12m", "12:15", "Room 2"),
+          ("The Dark Knight", "2008", "2h 32m", "14:45", "Room 2"),
+          ("Blade Runner 2049", "2017", "2h 44m", "17:45", "Room 2"),
+          ("The Mist", "2007", "2h 6m", "21:00", "Room 2"),
+          ("Demon Slayer: Mugen Train", "2020", "1h 59m", "23:20", "Room 2"),
+          ("The Matrix", "1999", "2h 16m", "10:00", "Room 3"),
+          ("Inception", "2010", "2h 42m", "11:30", "Room 3"),
+          ("Shutter Island", "2010", "2h 19m", "14:30", "Room 3"),
+          ("Soul", "2020" "1h 40m", "17:00", "Room 3"),
+          ("Mrs Brown", "1997", "1h 40m", "17:00", "Room 3"),
+          ("Peppa Pig: Festival of Fun", "2019", "1h 8m", "21:00", "Room 3"),
+          ("Titanic", "1997", "3h 30m", "22:15", "Room 3"), ]
+
+popcorn = {"s": ("small popcorn", 3.50),
+           "m": ("medium popcorn", 5.00),
+           "l": ("large popcorn", 7.00)}
+
+room_capacity = [("Room 1", 35),
+                 ("Room 2", 136),
+                 ("Room 3", 42)]
+
+
+# Calculating and itemising details of --book
+def popcorn_price():
+    if popcorn_size == 's':
+        return popcorn["s"][1]
+    if popcorn_size == "m":
+        return popcorn["m"][1]
+    if popcorn_size == "l":
+        return popcorn["l"][1]
+
+
+def popcorn_sizing():
+    if popcorn_size == 's':
+        return ("Person 1: Small popcorn              $ {}".format(popcorn["s"][1]))
+
+    if popcorn_size == "m":
+        return ("Person 1: Medium popcorn              $ {}".format(popcorn["m"][1]))
+
+    if popcorn_size == "l":
+        return ("Person 1: Large popcorn              $ {}".format(popcorn["l"][1]))
+
+
+def ticket_book_price(movie):
+    return 15.00 if str((movie[3][0:2])) > str(16) else 13.00
+
+
+def initial_cost():
+    return (popcorn_price() + ticket_book_price(movie))
+
+
+def book_discount():
+    book_discount = 0.00
+    return book_discount
+
+
+def book_final_cost():
+    return (initial_cost() + book_discount())
+
+
+# Switches
+# Show
+if "--show" == sys.argv[1]:
+    if len(sys.argv) < 3:
+        exit
+    time = sys.argv[2]
+    if len(time) == 5 and time[0:2].isnumeric() and time[2] == ":" and time[3:5].isnumeric():
+        for movie in movies:
+            if time <= movie[3]:
+                print(*movie)
+                # End of program
+                print("Bye.")
+                exit()
+    else:
+        print("Sorry. This program does not recognise the time format entered.")
+        print("Bye.")
+        exit()
+
+# Book
+elif "--book" in sys.argv:
+    found = None
+    while not found:
+        user_movie = input("What is the name of the movie you want to watch? ")
+        for movie in movies:
+            if user_movie.lower() == movie[0].lower():
+                found = movie
+        if not found:
+            quit = None
+            while quit not in ["y", "n"]:
+                quit = input("Sorry, we could not find that movie. Enter Y to try again or N to quit. ").lower()
+            if quit == "n":
+                print("Bye.")
+                exit()
+
+    # Purchasing popcorn for 1 individual
+    popcorn_order = True
+    while popcorn_order is True:
+        user_popcorn = input("Would you like to order popcorn? Y/N ").lower()
+        if user_popcorn == "n":
+            print("The seat number for person 1 is #17")
+            popcorn_order = False
+            break
+        elif user_popcorn == "y":
+            popcorn_order_sml = False
+            while popcorn_order_sml == False and user_popcorn == "y":
+                popcorn_size = str(input("You want popcorn. What size Small, Medium, or Large? (S/M/L) ")).lower()
+                if popcorn_size == "s":
+                    # print("The seat number for person 1 is #17")
+                    popcorn_order_sml = True
+                elif popcorn_size == "m":
+                    # print("The seat number for person 1 is #17")
+                    popcorn_order_sml = True
+                elif popcorn_size == "l":
+                    # print("The seat number for person 1 is #17")
+                    popcorn_order_sml = True
+            else:
+                popcorn_order = False
+
+    # Book receipt details
+    print("For 1 person the initial cost is ${}".format(initial_cost()))
+    print(popcorn_sizing())
+    print("Person 1: Ticket {} ${}".format("before 16.00" if str((movie[3][0:2])) < str(16) else "after 16.00",
+                                           ticket_book_price(movie)))
+    print("No discounts applied ${}".format(book_discount()))
+    print("The final cost is :${:.2f}".format(book_final_cost()))
+
+    hundred = 100
+    fifty = 50
+    twenty = 20
+    ten = 10
+    five = 5
+    two = 2
+    one = 1
+    fifty_c = 0.50
+    ten_c = 0.10
+    twenty_c = 0.20
+    five_c = 0.05
+
+    # Transact and give change
+    while True:
+        money_paid = float(input("Enter the amount paid: $ "))
+
+        if money_paid < book_final_cost():
+            insufficient_funds = book_final_cost() - money_paid
+            print("The user is {} short. Ask the user to pay the correct amount".format(insufficient_funds))
+
+        elif (money_paid % 0.05) == 0:
+            print(money_paid)
+            print("The input given is not divisible by 5c. Enter a valid payment.")
+
+        else:
+            change_transaction = money_paid - book_final_cost()
+            print(round(change_transaction, 2))
+            break
+
+    if int(change_transaction / hundred) > 0:
+        hundred_counter = int(change_transaction / hundred)
+        change_transaction = change_transaction - hundred_counter * hundred
+        print("$100: {}".format(hundred_counter))
+
+    # $50 change
+    if int((change_transaction) / fifty) > 0:
+        fifty_counter = int((change_transaction) / fifty)
+        change_transaction = change_transaction - fifty_counter * fifty
+        print("$50: {}".format(fifty_counter))
+
+    # $20 change
+
+    if int((change_transaction) / twenty) > 0:
+        twenty_counter = int((change_transaction) / twenty)
+        change_transaction = change_transaction - twenty_counter * twenty
+        print("$20: {}".format(twenty_counter))
+
+    # $10 change
+    if int((change_transaction) / ten) > 0:
+        ten_counter = int((change_transaction) / ten)
+        change_transaction = change_transaction - ten_counter * ten
+        print("$10: {}".format(ten_counter))
+
+    # $5 change
+    if int((change_transaction) / five) > 0:
+        five_counter = int((change_transaction) / five)
+        change_transaction = change_transaction - five_counter * five
+        print("$5: {}".format(five_counter))
+
+    # $2 change
+    if int((change_transaction) / two) > 0:
+        two_counter = int((change_transaction) / two)
+        change_transaction = change_transaction - two_counter * two
+        print("$2: {}".format(two_counter))
+
+    # $1 change
+    if int((change_transaction) / one) > 0:
+        one_counter = int((change_transaction) / one)
+        change_transaction = change_transaction - one_counter * one
+        print("$1: {}".format(one_counter))
+
+    # 50c change
+    if int((change_transaction) / fifty_c) > 0:
+        fifty_c_counter = int((change_transaction) / fifty_c)
+        change_transaction = change_transaction - fifty_c_counter * fifty_c
+        print("$50c: {}".format(fifty_c_counter))
+
+    # 20c change
+    if int((change_transaction) / twenty_c) > 0:
+        twenty_c_counter = int((change_transaction) / twenty_c)
+        change_transaction = change_transaction - twenty_c_counter * twenty_c
+        print("$20c: {}".format(twenty_c_counter))
+
+    # 10c change
+    if int((change_transaction) / ten_c) > 0:
+        ten_c_counter = int((change_transaction) / ten_c)
+        change_transaction = change_transaction - ten_c_counter * ten_c
+        print("$10c: {}".format(ten_c_counter))
+
+    # 5c change
+    if int((change_transaction) / five_c) > 0:
+        five_c_counter = int((change_transaction) / five_c)
+        change_transaction = change_transaction - five_c_counter * five_c
+        print("$5c: {}".format(five_c_counter))
+
+# Group switch
+if "--group" in sys.argv:
+    cost = 0
+    found = None
+    while not found:
+        user_movie = input("What is the name of the movie you want to watch? ")
+        for movie in movies:
+            if user_movie.lower() == movie[0].lower():
+                found = movie
+        if not found:
+            quit = None
+            while quit not in ["y", "n"]:
+                quit = input("Sorry, we could not find that movie. Enter Y to try again or N to quit. ").lower()
+            if quit == "n":
+                break
+
+
+        def ticket_group_price():
+            if found[3] < "16:00":
+                price_of_ticket = early_movies
+            else:
+                price_of_ticket = late_movies
+            return price_of_ticket
+    print(*found)
+
+group = True
+while group is True:
+    group_persons = int(input("How many persons will you like to book for? "))
+    if group_persons <= 1:
+        less = input(
+            "Sorry, you must have at least two customers for a group booking. Enter Y to try again or N to quit.").lower()
+        if less == 'n':
+            break
+        elif less == 'y':
+            group = True
+    if group_persons > 1:
+        if group_persons > room_capacity[0][1]:
+            print(
+                "Sorry, we do not have enough space to hold {} people in the theater room of {} seats. ".format(
+                    group_persons, 35))
+            user_group_person = input(("Enter Y to try a different movie name or N to quit Y/N ")).lower()
+            if user_group_person == 'n':
+                exit()
+            if user_group_person == 'y':
+                user_movie = input("What is the name of the movie you want to watch? ")
+                for movie in movies:
+                    if user_movie.lower() == movie[0].lower():
+                        found = movie
+                if not found:
+                    quit = None
+                    while quit not in ["y", "n"]:
+                        quit = input("Sorry, we could not find that movie. Enter Y to try again or N to quit. ").lower()
+                    if quit == "n":
+                        break
+                group_persons = int(input("How many persons will you like to book for? "))
+                if group_persons <= 1:
+                    less = input(
+                        "Sorry, you must have at least two customers for a group booking. Enter Y to try again or N to quit.").lower()
+                    if less == 'n':
+                        break
+                    elif less == 'y':
+                        group = True
+        if group_persons > room_capacity[1][1]:
+            print(
+                "Sorry, we do not have enough space to hold {} people in the theater room of {} seats.".format(
+                    group_persons, 136))
+            user_group_person = input(("Enter Y to try a different movie name or N to quit Y/N ")).lower()
+            if user_group_person == 'n':
+                exit()
+            if user_group_person == 'y':
+                user_group_person = input(("Enter Y to try a different movie name or N to quit Y/N ")).lower()
+                if user_group_person == 'n':
+                    exit()
+                if user_group_person == 'y':
+                    user_movie = input("What is the name of the movie you want to watch? ")
+                    for movie in movies:
+                        if user_movie.lower() == movie[0].lower():
+                            found = movie
+                    if not found:
+                        quit = None
+                        while quit not in ["y", "n"]:
+                            quit = input(
+                                "Sorry, we could not find that movie. Enter Y to try again or N to quit. ").lower()
+                        if quit == "n":
+                            break
+                    group_persons = int(input("How many persons will you like to book for? "))
+                    if group_persons <= 1:
+                        less = input(
+                            "Sorry, you must have at least two customers for a group booking. Enter Y to try again or N to quit.").lower()
+                        if less == 'n':
+                            break
+                        elif less == 'y':
+                            group = True
+        if group_persons > room_capacity[2][1]:
+            print("Sorry, we do not have enough space to hold {} people in the theater room of {} seats".format(
+                group_persons, 42))
+            user_group_person = input(("Enter Y to try a different movie name or N to quit Y/N ")).lower()
+            if user_group_person == 'n':
+                exit()
+            if user_group_person == 'y':
+                user_group_person = input(("Enter Y to try a different movie name or N to quit Y/N ")).lower()
+                if user_group_person == 'n':
+                    exit()
+                if user_group_person == 'y':
+                    user_movie = input("What is the name of the movie you want to watch? ")
+                    for movie in movies:
+                        if user_movie.lower() == movie[0].lower():
+                            found = movie
+                    if not found:
+                        quit = None
+                        while quit not in ["y", "n"]:
+                            quit = input(
+                                "Sorry, we could not find that movie. Enter Y to try again or N to quit. ").lower()
+                        if quit == "n":
+                            break
+                    group_persons = int(input("How many persons will you like to book for? "))
+                    if group_persons <= 1:
+                        less = input(
+                            "Sorry, you must have at least two customers for a group booking. Enter Y to try again or N to quit.").lower()
+                        if less == 'n':
+                            break
+                        elif less == 'y':
+                            group = True
+        group = False
+
+# Purchasing popcorn for group
+start = 0
+popcorn_order = True
+popcorn_type = []
+while popcorn_order is True:
+    start += 1
+    if group_persons + 1 != start:
+        user_popcorn = input(("For person {}, would you like to order popcorn? Y/N ").lower().format(start))
+        if user_popcorn == "n":
+            popcorn_order = False
+        elif user_popcorn == "y":
+            popcorn_order_sml = False
+            if popcorn_order_sml == False and user_popcorn == "y":
+                popcorn_size = str(input("You want popcorn. What size Small, Medium, or Large? (S/M/L) ")).lower()
+                if popcorn_size == "s":
+                    popcorn_order_sml = True
+                    popcorn_type.append(popcorn_size)
+                elif popcorn_size == "m":
+                    popcorn_order_sml = True
+                    popcorn_type.append(popcorn_size)
+                elif popcorn_size == "l":
+                    popcorn_order_sml = True
+                    popcorn_type.append(popcorn_size)
+
+            else:
+                popcorn_order = False
+
+    else:
+        break
+
+# Generating seating
+group_list = []
+group_list.append(group_persons)
+
+i = 1
+while i != group_persons + 1:
+    room_capacity[0] = (2 * i - 1)
+    print("The seat number for person {} is #{} ".format(i, room_capacity[0]))
+    i += 1
+
+
+# Calculating and itemising details of --group
+def popcorn_price():
+    i = 0
+
+    while i != group_list and popcorn_order is True:
+
+        if popcorn_size == 's':
+            return popcorn["s"][1]
+        if popcorn_size == "m":
+            return popcorn["m"][1]
+        if popcorn_size == "l":
+            return popcorn["l"][1]
+        i += 1
+
+
+def ticket_group_price():
+    if found[3] < "16:00":
+        price_of_ticket = early_movies
+    else:
+        price_of_ticket = late_movies
+    return price_of_ticket
+
+
+def initial_cost():
+    return (popcorn_price() + ticket_group_price())
+
+
+i = 0
+cost = 0
+for j in range(0, len(popcorn_type)):
+
+    if popcorn_type[j] == 's':
+        cost += popcorn["s"][1]
+    if popcorn_type[j] == "m":
+        cost += popcorn["m"][1]
+    if popcorn_type[j] == "l":
+        cost += popcorn["l"][1]
+initial_cost_val = cost + (group_persons * ticket_group_price())
+print("For {} persons the initial cost is ${}".format(group_persons, initial_cost_val))
+
+while group_persons > i:
+    i += 1
+    if found[3] < "16:00":
+        print("Person {}: Ticket before 16:00         $13.00".format(i))
+        try:
+            if popcorn_type[i - 1] == 's':
+                print("Person {}: Small popcorn              $ {}".format(i, popcorn["s"][1]))
+            elif popcorn_type[i - 1] == 'm':
+                print("Person {}: Medium popcorn              $ {}".format(i, popcorn["m"][1]))
+            elif popcorn_type[i - 1] == 'l':
+                print("Person {}: Large popcorn              $ {}".format(i, popcorn["l"][1]))
+        except IndexError:
+            pass
+
+
+    else:
+        if found[3] > "16:00":
+            print("Person {}: Ticket after 16:00         $15.00".format(i))
+            try:
+                if popcorn_type[i - 1] == 's':
+                    print("Person {}: Small popcorn              $ {}".format(i, popcorn["s"][1]))
+
+                elif popcorn_type[i - 1] == 'm':
+                    print("Person {}: Medium popcorn              $ {}".format(i, popcorn["m"][1]))
+
+                elif popcorn_type[i - 1] == 'l':
+                    print("Person {}: Large popcorn              $ {}".format(i, popcorn["l"][1]))
+            except IndexError:
+                pass
+
+
+def group_discount():
+    if initial_cost_val > 100:
+        ten_percent = ticket_group_price() * 0.10
+        final_cost = ticket_group_price() - ten_percent
+        return (round(ten_percent, 2))
+    else:
+        return 0.0
+
+
+def popcorn_discount():
+    if initial_cost_val > 100:
+        popcorn_twenty_off = cost * 0.20
+        return (round(popcorn_twenty_off, 2))
+    else:
+        return 0.0
+
+
+def round_value():
+    return int(round(group_final_cost() * 20) / 20)
+
+
+def group_final_cost():
+    group_final_cost = initial_cost_val - (group_persons * group_discount() + popcorn_discount())
+    return (group_final_cost)
+
+
+# Printing receipt
+discounts = True
+if discounts is True:
+    if group_discount() > 0 or popcorn_discount() > 0:
+        print("Discount applied tickets x{}    -$ {:.2f}".format(group_persons, group_persons * group_discount()))
+        print("Discount applied popcorn x{}    -$ {:.2f}".format(group_persons, popcorn_discount()))
+        print("The final price is              ${:.2f}".format(group_final_cost()))
+    else:
+        print("No discounts applied            ${:.2f}".format(0.00))
+        print("The final price is              ${:.2f}".format(initial_cost_val))
+
+    hundred = 100
+    fifty = 50
+    twenty = 20
+    ten = 10
+    five = 5
+    two = 2
+    one = 1
+    fifty_c = 0.50
+    ten_c = 0.10
+    twenty_c = 0.20
+    five_c = 0.05
+
+    while True:
+        money_paid = float(input("Enter the amount paid: $ "))
+
+        if money_paid < group_final_cost():
+            insufficient_funds = group_final_cost() - money_paid
+            print("The user is {} short. Ask the user to pay the correct amount".format(insufficient_funds))
+
+        elif (money_paid % 0.05) == 0:
+            print(money_paid)
+            print("The input given is not divisible by 5c. Enter a valid payment.")
+
+        else:
+            change_transaction = money_paid - group_final_cost()
+            print("Change:", round(change_transaction, 2))
+            break
+
+    if int(change_transaction / hundred) > 0:
+        hundred_counter = int(change_transaction / hundred)
+        change_transaction = change_transaction - hundred_counter * hundred
+        print("$100: {}".format(hundred_counter))
+
+    # $50 change
+    if int((change_transaction) / fifty) > 0:
+        fifty_counter = int((change_transaction) / fifty)
+        change_transaction = change_transaction - fifty_counter * fifty
+        print("$50: {}".format(fifty_counter))
+
+    # $20 change
+
+    if int((change_transaction) / twenty) > 0:
+        twenty_counter = int((change_transaction) / twenty)
+        change_transaction = change_transaction - twenty_counter * twenty
+        print("$20: {}".format(twenty_counter))
+
+    # $10 change
+    if int((change_transaction) / ten) > 0:
+        ten_counter = int((change_transaction) / ten)
+        change_transaction = change_transaction - ten_counter * ten
+        print("$10: {}".format(ten_counter))
+
+    # $5 change
+    if int((change_transaction) / five) > 0:
+        five_counter = int((change_transaction) / five)
+        change_transaction = change_transaction - five_counter * five
+        print("$5: {}".format(five_counter))
+
+    # $2 change
+    if int((change_transaction) / two) > 0:
+        two_counter = int((change_transaction) / two)
+        change_transaction = change_transaction - two_counter * two
+        print("$2: {}".format(two_counter))
+
+    # $1 change
+    if int((change_transaction) / one) > 0:
+        one_counter = int((change_transaction) / one)
+        change_transaction = change_transaction - one_counter * one
+        print("$1: {}".format(one_counter))
+
+    # 50c change
+    if int((change_transaction) / fifty_c) > 0:
+        fifty_c_counter = int((change_transaction) / fifty_c)
+        change_transaction = change_transaction - fifty_c_counter * fifty_c
+        print("$50c: {}".format(fifty_c_counter))
+
+    # 20c change
+    if int((change_transaction) / twenty_c) > 0:
+        twenty_c_counter = int((change_transaction) / twenty_c)
+        change_transaction = change_transaction - twenty_c_counter * twenty_c
+        print("$20c: {}".format(twenty_c_counter))
+
+    # 10c change
+    if int((change_transaction) / ten_c) > 0:
+        ten_c_counter = int((change_transaction) / ten_c)
+        change_transaction = change_transaction - ten_c_counter * ten_c
+        print("$10c: {}".format(ten_c_counter))
+
+    # 5c change
+    if int((change_transaction) / five_c) > 0:
+        five_c_counter = int((change_transaction) / five_c)
+        change_transaction = change_transaction - five_c_counter * five_c
+        print("$5c: {}".format(five_c_counter))
+    print("Bye.")
+    exit()
+
+# Switch errors
+while True:
+    if "--show" != sys.argv[1]:
+        print("Sorry. This program does not recognise the switch options.")
+    elif "--book" != sys.argv:
+        print("Sorry. This program does not recognise the switch options.")
+    elif "--group" != sys.argv:
+        print("Sorry. This program does not recognise the switch options.")
+    # End of program
+    print("Bye.")
+    exit()
